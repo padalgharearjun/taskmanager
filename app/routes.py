@@ -15,6 +15,7 @@ from functools import wraps
 from flask import redirect, url_for, session, flash
 from functools import wraps
 
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -66,7 +67,8 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user is None or not user.check_password(password):
-            flash('Invalid username or password')
+            #flash('Invalid username or password')
+            flash("Invalid username or password", "danger")
             return redirect(url_for('login'))
 
         # Log the user in by storing their username in the session
@@ -320,3 +322,8 @@ def download_report():
     response.headers['Content-Disposition'] = 'attachment; filename=tasks_report.csv'
 
     return response
+
+
+
+
+
