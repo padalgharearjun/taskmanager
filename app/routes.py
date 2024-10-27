@@ -15,6 +15,19 @@ from functools import wraps
 from flask import redirect, url_for, session, flash
 from functools import wraps
 
+from flask import make_response
+
+def nocache(view):
+    @wraps(view)
+    def no_cache(*args, **kwargs):
+        response = make_response(view(*args, **kwargs))
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "-1"
+        return response
+    return no_cache
+
+
 
 def login_required(f):
     @wraps(f)
@@ -82,6 +95,7 @@ def login():
 
 @app.route('/logout', methods=['POST'])
 @login_required
+@nocache
 def logout():
     session.pop('username', None)
     flash('You have been logged out.')
@@ -100,6 +114,7 @@ def home():
 
 @app.route('/create_task', methods=['GET', 'POST'])
 @login_required
+@nocache
 def create_task():
     if 'username' not in session:
         flash('Please log in to create a task.')
@@ -143,6 +158,7 @@ from flask import request, flash
 
 @app.route('/tasks', methods=['GET', 'POST'])
 @login_required
+@nocache
 def view_tasks():
     if 'username' not in session:
         flash('Please log in to view your tasks.')
@@ -189,6 +205,7 @@ def view_tasks():
 
 @app.route('/edit_task/<int:task_id>', methods=['GET', 'POST'])
 @login_required
+@nocache
 def edit_task(task_id):
     task = Task.query.get_or_404(task_id)
 
@@ -217,6 +234,7 @@ def edit_task(task_id):
 
 @app.route('/delete_task/<int:task_id>')
 @login_required
+@nocache
 def delete_task(task_id):
     task = Task.query.get_or_404(task_id)
     db.session.delete(task)
@@ -271,6 +289,7 @@ from datetime import datetime
 
 @app.route('/download_report', methods=['GET'])
 @login_required
+@nocache
 def download_report():
     # Get search parameters from the request
     search_query = request.args.get('search', '')
