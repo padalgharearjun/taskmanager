@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Tasks</title>
+    <style>
+        /* Styling for header and footer */
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            font-size: 1.8em;
+            position: relative;
+            top: 0;
+            width: 100%;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            font-size: 0.9em;
+        }
+
+        /* Styling for the task table and user info */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+
+        .user-info p {
+            margin: 0;
+        }
+
+        .user-info button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .user-info button:hover {
+            background-color: #575757;
+        }
+
+        .create-task-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .create-task-button:hover {
+            background-color: #575757;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Highlight background for Priority */
+        .priority.low {
+            background-color: #C8E6C9; /* Light green for Low priority */
+        }
+
+        .priority.medium {
+            background-color: #FFE0B2; /* Light orange for Medium priority */
+        }
+
+        .priority.high {
+            background-color: #FFCDD2; /* Light red for High priority */
+        }
+
+        /* Highlight background for Status */
+        .completed {
+            background-color: #C8E6C9; /* Light green for Completed tasks */
+        }
+
+        .not-completed {
+            background-color: #FFCDD2; /* Light red for Not Completed tasks */
+        }
+
+        /* Styling for search box and filter options */
+        .filter-box {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .filter-box input[type="text"],
+        .filter-box select {
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .filter-box input[type="date"] {
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: auto;
+        }
+
+        .filter-box input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .filter-box input[type="submit"]:hover {
+            background-color: #575757;
+        }
+
+        /* Styling for download report button */
+        .download-report-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .download-report-button:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        Task Manager (ToDo)
+    </div>
+
+    <div class="content">
+        <!-- User Info Section -->
+        <div class="user-info">
+            <p>Logged in as: <strong>{{ session['username'] }}</strong></p>
+            <form method="POST" action="{{ url_for('logout') }}">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+
+        <!-- Create Task Button -->
+        <a href="{{ url_for('create_task') }}" class="create-task-button">Create New Task</a>
+
+        <!-- Search and Filter Options -->
+        <div class="filter-box">
+            <form method="GET" action="{{ url_for('view_tasks') }}">
+                <input type="text" name="search" placeholder="Search tasks" value="{{ search_query }}">
+                <select name="priority">
+                    <option value="">All Priorities</option>
+                    <option value="Low" {% if priority_filter == 'Low' %}selected{% endif %}>Low</option>
+                    <option value="Medium" {% if priority_filter == 'Medium' %}selected{% endif %}>Medium</option>
+                    <option value="High" {% if priority_filter == 'High' %}selected{% endif %}>High</option>
+                </select>
+                
+                <!-- Use date input type for date picker -->
+                <input type="date" name="due_date" value="{{ due_date_filter }}">
+
+                <input type="submit" value="Filter">
+            </form>
+        </div>
+
+        <h1>Your Tasks</h1>
+
+        <!-- Task Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if tasks %}
+                    {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.title }}</td>
+                            <td>{{ task.description }}</td>
+                            <td>{{ task.due_date.strftime('%Y-%m-%d') if task.due_date else 'No due date' }}</td>
+                            
+                            <!-- Apply priority color marker using dynamic class -->
+                            <td class="priority {% if task.priority == 'Low' %}low{% elif task.priority == 'Medium' %}medium{% else %}high{% endif %}">
+                                {{ task.priority }}
+                            </td>
+
+                            <!-- Apply status color marker using dynamic class -->
+                            <td class="{% if task.completed %}completed{% else %}not-completed{% endif %}">
+                                {% if task.completed %}Completed{% else %}Not Completed{% endif %}
+                            </td>
+                            
+                            <td>
+                                <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a> |
+                                <a href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No tasks found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <!-- Download Report Button -->
+        <form method="GET" action="{{ url_for('download_report') }}">
+            <input type="hidden" name="search" value="{{ search_query }}">
+            <input type="hidden" name="priority" value="{{ priority_filter }}">
+            <input type="hidden" name="due_date" value="{{ due_date_filter }}">
+            <button type="submit" class="download-report-button">Download Report</button>
+        </form>
+
+        <!-- Pagination -->
+        <div>
+            {% if pagination.has_prev %}
+                <a href="{{ url_for('view_tasks', page=pagination.prev_num, search=search_query, priority=priority_filter, due_date=due_date_filter) }}">Previous</a>
+            {% endif %}
+            {% if pagination.has_next %}
+                <a href="{{ url_for('view_tasks', page=pagination.next_num, search=search_query, priority=priority_filter, due_date=due_date_filter) }}">Next</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        Developed by: Arjun Padalghare
+    </div>
+</body>
+</html>

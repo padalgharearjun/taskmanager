@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        /* Styling for header and footer */
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            font-size: 1.8em;
+            position: relative;
+            top: 0;
+            width: 100%;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            font-size: 0.9em;
+        }
+
+        /* Styling for body and login form */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin-top: 20px; /* Gap between header and login form */
+        }
+
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .login-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-container input[type="submit"]:hover {
+            background-color: #575757;
+        }
+
+        .login-container p {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .login-container a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #999;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        Task Manager (ToDo)
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-container">
+        <h1>Login</h1>
+        <form method="POST" action="/login">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
+        <button onclick="location.href='{{ url_for('forgot_password') }}'">Forgot Password</button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        Developed by: Arjun Padalghare
+    </div>
+</body>
+</html>
