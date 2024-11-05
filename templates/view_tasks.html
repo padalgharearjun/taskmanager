@@ -37,6 +37,8 @@
 
         .content {
             padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .user-info {
@@ -79,23 +81,27 @@
             background-color: #575757;
         }
 
+        /* Improved Task Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         th, td {
-            padding: 12px;
+            padding: 15px;
             text-align: left;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #333;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
         tr:nth-child(even) {
@@ -106,46 +112,43 @@
             background-color: #f1f1f1;
         }
 
-        /* Highlight background for Priority */
-        .priority.low {
-            background-color: #C8E6C9; /* Light green for Low priority */
+        /* Priority and Status Badge Styling */
+        .priority-badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9em;
+            display: inline-block;
+            color: #fff;
         }
 
-        .priority.medium {
-            background-color: #FFE0B2; /* Light orange for Medium priority */
+        .priority.low { background-color: #4CAF50; }      /* Green */
+        .priority.medium { background-color: #FFC107; }   /* Yellow */
+        .priority.high { background-color: #FF5722; }     /* Red */
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9em;
+            display: inline-block;
+            color: #fff;
         }
 
-        .priority.high {
-            background-color: #FFCDD2; /* Light red for High priority */
-        }
+        .status.completed { background-color: #4CAF50; }      /* Green */
+        .status.not-completed { background-color: #FF5722; }  /* Red */
 
-        /* Highlight background for Status */
-        .completed {
-            background-color: #C8E6C9; /* Light green for Completed tasks */
-        }
-
-        .not-completed {
-            background-color: #FFCDD2; /* Light red for Not Completed tasks */
-        }
-
-        /* Styling for search box and filter options */
+        /* Filter box styling */
         .filter-box {
             display: flex;
-            justify-content: space-between;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
         .filter-box input[type="text"],
-        .filter-box select {
-            padding: 10px;
-            margin-right: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
+        .filter-box select,
         .filter-box input[type="date"] {
             padding: 10px;
-            margin-right: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
             width: auto;
@@ -209,10 +212,7 @@
                     <option value="Medium" {% if priority_filter == 'Medium' %}selected{% endif %}>Medium</option>
                     <option value="High" {% if priority_filter == 'High' %}selected{% endif %}>High</option>
                 </select>
-                
-                <!-- Use date input type for date picker -->
                 <input type="date" name="due_date" value="{{ due_date_filter }}">
-
                 <input type="submit" value="Filter">
             </form>
         </div>
@@ -238,17 +238,14 @@
                             <td>{{ task.title }}</td>
                             <td>{{ task.description }}</td>
                             <td>{{ task.due_date.strftime('%Y-%m-%d') if task.due_date else 'No due date' }}</td>
-                            
-                            <!-- Apply priority color marker using dynamic class -->
-                            <td class="priority {% if task.priority == 'Low' %}low{% elif task.priority == 'Medium' %}medium{% else %}high{% endif %}">
-                                {{ task.priority }}
+                            <td>
+                                <span class="priority-badge priority {{ task.priority | lower }}">{{ task.priority }}</span>
                             </td>
-
-                            <!-- Apply status color marker using dynamic class -->
-                            <td class="{% if task.completed %}completed{% else %}not-completed{% endif %}">
-                                {% if task.completed %}Completed{% else %}Not Completed{% endif %}
+                            <td>
+                                <span class="status-badge status {% if task.completed %}completed{% else %}not-completed{% endif %}">
+                                    {% if task.completed %}Completed{% else %}Not Completed{% endif %}
+                                </span>
                             </td>
-                            
                             <td>
                                 <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a> |
                                 <a href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>
