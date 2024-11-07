@@ -98,6 +98,8 @@ def login():
 @nocache
 def logout():
     session.pop('username', None)
+    # Clear the session data, including any flash messages
+    session.clear()
     flash('You have been logged out.')
     return redirect(url_for('login'))
 
