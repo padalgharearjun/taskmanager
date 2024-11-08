@@ -81,6 +81,35 @@
             background-color: #575757;
         }
 
+        /* Dashboard styling */
+        .dashboard {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-item {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .high-priority {
+            color: #FF5722; /* Red */
+        }
+
+        .medium-priority {
+            color: #FFC107; /* Yellow */
+        }
+
+        .low-priority {
+            color: #4CAF50; /* Green */
+        }
+
         /* Improved Task Table Styling */
         table {
             width: 100%;
@@ -201,6 +230,22 @@
 
         <!-- Create Task Button -->
         <a href="{{ url_for('create_task') }}" class="create-task-button">Create New Task</a>
+
+        <!-- Status Dashboard -->
+        <div class="dashboard">
+            <div class="dashboard-item high-priority">
+                High Priority: {{ high_priority_tasks }} ({{ high_priority_completed }} Completed, {{ high_priority_pending }} Pending)
+            </div>
+            <div class="dashboard-item medium-priority">
+                Medium Priority: {{ medium_priority_tasks }} ({{ medium_priority_completed }} Completed, {{ medium_priority_pending }} Pending)
+            </div>
+            <div class="dashboard-item low-priority">
+                Low Priority: {{ low_priority_tasks }} ({{ low_priority_completed }} Completed, {{ low_priority_pending }} Pending)
+            </div>
+            <div class="dashboard-item">
+                Total Tasks: {{ total_tasks }}
+            </div>
+        </div>
 
         <!-- Search and Filter Options -->
         <div class="filter-box">

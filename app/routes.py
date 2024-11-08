@@ -169,6 +169,25 @@ def view_tasks():
     # Get the current user
     user = User.query.filter_by(username=session['username']).first()
 
+    # Get all tasks for the current user
+    all_tasks = Task.query.filter_by(user_id=user.id).all()
+
+    # Calculate total tasks and priority counts
+    total_tasks = len(all_tasks)
+    high_priority_tasks = sum(1 for task in all_tasks if task.priority == 'High')
+    medium_priority_tasks = sum(1 for task in all_tasks if task.priority == 'Medium')
+    low_priority_tasks = sum(1 for task in all_tasks if task.priority == 'Low')
+
+    # Calculate completed and pending counts for each priority
+    high_priority_completed = sum(1 for task in all_tasks if task.priority == 'High' and task.completed)
+    high_priority_pending = high_priority_tasks - high_priority_completed
+
+    medium_priority_completed = sum(1 for task in all_tasks if task.priority == 'Medium' and task.completed)
+    medium_priority_pending = medium_priority_tasks - medium_priority_completed
+
+    low_priority_completed = sum(1 for task in all_tasks if task.priority == 'Low' and task.completed)
+    low_priority_pending = low_priority_tasks - low_priority_completed
+
     # Get search parameters
     search_query = request.args.get('search', '')
     priority_filter = request.args.get('priority', '')
@@ -198,11 +217,27 @@ def view_tasks():
     # Apply pagination
     page = request.args.get('page', 1, type=int)
     tasks_per_page = 5  # Set the number of tasks per page
-    tasks = tasks_query.paginate(page=page, per_page=tasks_per_page)
+    paginated_tasks = tasks_query.paginate(page=page, per_page=tasks_per_page)
 
-    return render_template('view_tasks.html', tasks=tasks.items, search_query=search_query,
-                           priority_filter=priority_filter, due_date_filter=due_date_filter,
-                           pagination=tasks)
+    # Render the template with all the required data
+    return render_template(
+        'view_tasks.html',
+        tasks=paginated_tasks.items,
+        search_query=search_query,
+        priority_filter=priority_filter,
+        due_date_filter=due_date_filter,
+        pagination=paginated_tasks,
+        total_tasks=total_tasks,
+        high_priority_tasks=high_priority_tasks,
+        medium_priority_tasks=medium_priority_tasks,
+        low_priority_tasks=low_priority_tasks,
+        high_priority_completed=high_priority_completed,
+        high_priority_pending=high_priority_pending,
+        medium_priority_completed=medium_priority_completed,
+        medium_priority_pending=medium_priority_pending,
+        low_priority_completed=low_priority_completed,
+        low_priority_pending=low_priority_pending
+    )
 
 
 @app.route('/edit_task/<int:task_id>', methods=['GET', 'POST'])
