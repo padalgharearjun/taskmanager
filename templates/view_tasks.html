@@ -226,19 +226,79 @@
         }
 
 
-        /* Styling for download report button */
+        /* Container for Download and Pagination Buttons */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Materialistic Download Report Button */
         .download-report-button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4caf50, #2e7d32); /* Material-style gradient */
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .download-report-button:hover {
-            background-color: #45a049;
+            transform: translateY(-2px); /* Lift effect */
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+        }
+
+        .download-report-button:active {
+            transform: translateY(1px); /* Pressed effect */
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.1); /* Reduced shadow */
+        }
+
+        /* Ripple Effect */
+        .download-report-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+        }
+
+        .download-report-button:active::after {
+            width: 200px;
+            height: 200px;
+            opacity: 0;
+        }
+
+        /* Styling for the Pagination Links */
+        .pagination {
+            display: flex;
+            gap: 10px;
+        }
+
+        .pagination a {
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #f0f0f0;
         }
 
     </style>
@@ -335,22 +395,23 @@
             </tbody>
         </table>
 
-        <!-- Download Report Button -->
-        <form method="GET" action="{{ url_for('download_report') }}">
-            <input type="hidden" name="search" value="{{ search_query }}">
-            <input type="hidden" name="priority" value="{{ priority_filter }}">
-            <input type="hidden" name="due_date" value="{{ due_date_filter }}">
-            <button type="submit" class="download-report-button">Download Report</button>
-        </form>
+        <!-- Download Report and Pagination -->
+        <div class="button-container">
+            <form method="GET" action="{{ url_for('download_report') }}">
+                <input type="hidden" name="search" value="{{ search_query }}">
+                <input type="hidden" name="priority" value="{{ priority_filter }}">
+                <input type="hidden" name="due_date" value="{{ due_date_filter }}">
+                <button type="submit" class="download-report-button">Download Report</button>
+            </form>
 
-        <!-- Pagination -->
-        <div>
-            {% if pagination.has_prev %}
-                <a href="{{ url_for('view_tasks', page=pagination.prev_num, search=search_query, priority=priority_filter, due_date=due_date_filter) }}">Previous</a>
-            {% endif %}
-            {% if pagination.has_next %}
-                <a href="{{ url_for('view_tasks', page=pagination.next_num, search=search_query, priority=priority_filter, due_date=due_date_filter) }}">Next</a>
-            {% endif %}
+            <div class="pagination">
+                {% if pagination.has_prev %}
+                    <a href="{{ url_for('view_tasks', page=pagination.prev_num, search=search_query, priority=priority_filter, due_date=due_date_filter) }}">Previous</a>
+                {% endif %}
+                {% if pagination.has_next %}
+                    <a href="{{ url_for('view_tasks', page=pagination.next_num, search=search_query, priority=priority_filter, due_date=due_date_filter) }}">Next</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 
