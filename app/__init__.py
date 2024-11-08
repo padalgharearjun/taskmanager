@@ -13,7 +13,7 @@ app = Flask(__name__, template_folder='../templates')  # Points to the correct f
 basedir = os.path.abspath(os.path.dirname(__file__))  # Get the directory where this file resides
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, '../sqlite/tasks.db')  # Define the database path
 app.config['SECRET_KEY'] = 'your_secret_key'  # Use a secure and random string for the secret key
-
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize the database object
 db = SQLAlchemy(app)
 
