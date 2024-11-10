@@ -1,179 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-    <style>
-        /* Flash message styling */
-        .flash-messages {
-            margin: 20px auto;
-            max-width: 400px;
-            padding: 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-align: center;
-        }
-        .alert-success {
-            color: #155724;
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-        }
-        .alert-danger {
-            color: #721c24;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-        }
-        .alert-info {
-            color: #0c5460;
-            background-color: #d1ecf1;
-            border: 1px solid #bee5eb;
-        }
-        .alert-warning {
-            color: #856404;
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-        }
-        /* Styling for header and footer */
-        .header {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: white;
-            font-size: 1.8em;
-            position: relative;
-            top: 0;
-            width: 100%;
-        }
+{% extends "base.html" %}
 
-        .footer {
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #333;
-            color: white;
-            font-size: 0.9em;
-        }
+{% block title %}Login{% endblock %}
 
-        /* Styling for body and login form */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0;
-            padding-top: 50px;
-            padding-bottom: 50px;
-            min-height: 100vh;
-        }
-
-        .login-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            margin-top: 20px; /* Gap between header and login form */
-        }
-
-        .login-container h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .login-container input[type="text"],
-        .login-container input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .login-container input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .login-container input[type="submit"]:hover {
-            background-color: #575757;
-        }
-
-        .login-container p {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .login-container a {
-            color: #333;
-            text-decoration: none;
-        }
-
-        .login-container a:hover {
-            text-decoration: underline;
-        }
-
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background-color: #999;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .login-container button:hover {
-            background-color: #777;
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <div class="header">
-        Task Manager (ToDo)
-    </div>
-
-    <!-- Login Form -->
+{% block content %}
     <div class="login-container">
         <h1>Login</h1>
-        <form method="POST" action="/login">
+        <!-- Form for login -->
+        <form method="POST" action="{{ url_for('login') }}">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="submit" value="Login">
         </form>
+        
+        <!-- Link to sign up page -->
         <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
-        <button onclick="location.href='{{ url_for('forgot_password') }}'">Forgot Password</button>
+        
+        <!-- Button for forgot password -->
+        <a href='{{ url_for('forgot_password') }}'">Forgot Password</button>
     </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        Developed by: Arjun Padalghare
-    </div>
-
-    <!-- Flash Messages -->
-    <div class="flash-messages">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
-
-    <!-- Main Content -->
-    <div>
-        {% block content %}{% endblock %}
-    </div>
-
-</body>
-</html>
+{% endblock %}
