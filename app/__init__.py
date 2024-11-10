@@ -4,8 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # Initialize the Flask application
 app = Flask(__name__)
-app = Flask(__name__, static_folder='../static')
-
+app = Flask(__name__, static_folder='../static/css')
 app = Flask(__name__, template_folder='../templates')  # Points to the correct folder
 
 

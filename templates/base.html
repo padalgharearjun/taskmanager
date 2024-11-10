@@ -1,68 +1,24 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 <head>
     <title>{% block title %}Task Manager{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        /* Styling for flash messages */
-        .flash-messages {
-            margin: 15px auto;
-            padding: 10px;
-            border-radius: 5px;
-            max-width: 800px;
-            font-weight: bold;
-        }
-        .alert-info {
-            background-color: #d9edf7;
-            color: #31708f;
-            border: 1px solid #bce8f1;
-        }
-        .alert-success {
-            background-color: #dff0d8;
-            color: #3c763d;
-            border: 1px solid #d6e9c6;
-        }
-        .alert-warning {
-            background-color: #fcf8e3;
-            color: #8a6d3b;
-            border: 1px solid #faebcc;
-        }
-        .alert-danger {
-            background-color: #f2dede;
-            color: #a94442;
-            border: 1px solid #ebccd1;
-        }
-    </style>
+    <!-- Link to the stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav>
-        <ul>
-            {% if 'username' in session %}
-                <li><a href="{{ url_for('view_tasks') }}">My Tasks</a></li>
-                <li><a href="{{ url_for('create_task') }}">Create Task</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout ({{ session['username'] }})</a></li>
-            {% else %}
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
-            {% endif %}
-        </ul>
+        <!-- Add your navigation items here -->
     </nav>
 
-    <!-- Flash Messages -->
-    <div class="flash-messages">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
-
     <!-- Main Content -->
-    <div>
+    <div class="main-content">
         {% block content %}{% endblock %}
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Developed by: Arjun Padalghare</p>
+    </footer>
 </body>
 </html>
