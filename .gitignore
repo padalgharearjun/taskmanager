@@ -1,3 +1,14 @@
 sqlite/tasks.db
 *.pyc
 _pycache_
+
+
+# Ignore compiled Python files
+app/__pycache__/
+
+# Ignore migration files
+migrations/README
+migrations/alembic.ini
+migrations/env.py
+migrations/script.py.mako
+migrations/versions/
