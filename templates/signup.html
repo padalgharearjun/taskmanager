@@ -3,24 +3,47 @@
 <head>
     <title>Sign Up</title>
     <style>
-        /* Basic styling for body and form container */
+        /* Basic styling for body */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
         }
 
+        /* Header styling */
+        .header {
+            text-align: center;
+            font-size: 3em; /* Increased font size */
+            font-weight: bold;
+            color: #333;
+            margin: 30px 0; /* Added margin to create space */
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Form container with glassmorphism effect */
         .form-container {
-            background-color: white;
+            background: rgba(255, 255, 255, 0.3);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
             width: 400px;
+            color: #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
         .form-container h1 {
@@ -29,38 +52,54 @@
             color: #333;
         }
 
+        /* Input and select styling */
         .form-container input[type="text"],
         .form-container input[type="password"],
         .form-container select {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.5);
+            color: #333;
+            transition: border 0.3s ease, background 0.3s ease;
         }
 
+        .form-container input[type="text"]:focus,
+        .form-container input[type="password"]:focus,
+        .form-container select:focus {
+            border: 1px solid #6a11cb;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Submit button styling */
         .form-container input[type="submit"] {
             width: 100%;
-            padding: 10px;
-            background-color: #333;
+            padding: 12px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 20px;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .form-container input[type="submit"]:hover {
-            background-color: #575757;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
+        /* Label styling */
         .form-container label {
             margin: 10px 0;
             color: #333;
+            display: block;
+            font-weight: bold;
         }
 
-        /* Styling for footer */
+        /* Footer styling */
         .footer {
             text-align: center;
             padding: 10px;
@@ -74,6 +113,11 @@
     </style>
 </head>
 <body>
+
+    <!-- Header -->
+    <div class="header">
+        Task Manager
+    </div>
 
     <!-- Signup Form Container -->
     <div class="form-container">
