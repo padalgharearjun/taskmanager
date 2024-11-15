@@ -214,19 +214,16 @@ def view_tasks():
         except ValueError:
             flash('Invalid date format. Please use the date picker to select a date.')
 
-    # Apply pagination
-    page = request.args.get('page', 1, type=int)
-    tasks_per_page = 5  # Set the number of tasks per page
-    paginated_tasks = tasks_query.paginate(page=page, per_page=tasks_per_page)
+    # Get all tasks without pagination
+    tasks = tasks_query.all()
 
     # Render the template with all the required data
     return render_template(
         'view_tasks.html',
-        tasks=paginated_tasks.items,
+        tasks=tasks,
         search_query=search_query,
         priority_filter=priority_filter,
         due_date_filter=due_date_filter,
-        pagination=paginated_tasks,
         total_tasks=total_tasks,
         high_priority_tasks=high_priority_tasks,
         medium_priority_tasks=medium_priority_tasks,
@@ -238,6 +235,7 @@ def view_tasks():
         low_priority_completed=low_priority_completed,
         low_priority_pending=low_priority_pending
     )
+
 
 
 @app.route('/edit_task/<int:task_id>', methods=['GET', 'POST'])
