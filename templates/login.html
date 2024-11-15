@@ -32,16 +32,20 @@
             background-color: #fff3cd;
             border: 1px solid #ffeeba;
         }
+
         /* Styling for header and footer */
         .header {
             text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: white;
-            font-size: 1.8em;
-            position: relative;
-            top: 0;
-            width: 100%;
+            font-size: 3em; /* Increased font size */
+            font-weight: bold;
+            color: #333;
+            margin: 30px 0; /* Added margin to create space */
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            background-clip: text; /* Standard property */
+            -webkit-text-fill-color: transparent;
         }
 
         .footer {
@@ -55,84 +59,110 @@
             font-size: 0.9em;
         }
 
-        /* Styling for body and login form */
+        /* Styling for body */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
-            color: #333;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0;
-            padding-top: 50px;
-            padding-bottom: 50px;
-            min-height: 100vh;
+            height: 100vh;
+            color: #333;
         }
 
+        /* Login container with glassmorphism effect */
         .login-container {
-            background-color: white;
+            background: rgba(255, 255, 255, 0.3);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
             width: 300px;
             margin-top: 20px; /* Gap between header and login form */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
         .login-container h1 {
             text-align: center;
             margin-bottom: 20px;
+            color: #333;
         }
 
+        /* Input styling */
         .login-container input[type="text"],
         .login-container input[type="password"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.5);
+            color: #333;
+            transition: border 0.3s ease, background 0.3s ease;
         }
 
+        .login-container input[type="text"]:focus,
+        .login-container input[type="password"]:focus {
+            border: 1px solid #6a11cb;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Submit button styling */
         .login-container input[type="submit"] {
             width: 100%;
-            padding: 10px;
-            background-color: #333;
+            padding: 12px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .login-container input[type="submit"]:hover {
-            background-color: #575757;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
+        /* Button styling */
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #ff8a00, #e52e71);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background: linear-gradient(135deg, #e52e71, #ff8a00);
+        }
+
+        /* Link styling */
         .login-container p {
             text-align: center;
             margin-top: 10px;
         }
 
         .login-container a {
-            color: #333;
+            color: #6a11cb;
             text-decoration: none;
+            font-weight: bold;
         }
 
         .login-container a:hover {
             text-decoration: underline;
-        }
-
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background-color: #999;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .login-container button:hover {
-            background-color: #777;
         }
     </style>
 </head>
@@ -151,7 +181,7 @@
             <input type="submit" value="Login">
         </form>
         <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
-        <button onclick="location.href='{{ url_for('forgot_password') }}'">Forgot Password</button>
+        <button onclick="location.href='{{ url_for('forgot_password') }}';">Forgot Password</button>
     </div>
 
     <!-- Footer -->
@@ -174,6 +204,5 @@
     <div>
         {% block content %}{% endblock %}
     </div>
-
 </body>
 </html>
