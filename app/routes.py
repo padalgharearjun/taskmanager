@@ -191,6 +191,7 @@ def view_tasks():
     # Get search parameters
     search_query = request.args.get('search', '')
     priority_filter = request.args.get('priority', '')
+    status_filter = request.args.get('status', '')
     due_date_filter = request.args.get('due_date', '')
 
     # Start with base query
@@ -204,6 +205,12 @@ def view_tasks():
 
     if priority_filter:
         tasks_query = tasks_query.filter_by(priority=priority_filter)
+
+    if status_filter:
+        if status_filter == 'Completed':
+            tasks_query = tasks_query.filter_by(completed=True)
+        elif status_filter == 'Pending':
+            tasks_query = tasks_query.filter_by(completed=False)
 
     if due_date_filter:
         try:
@@ -223,6 +230,7 @@ def view_tasks():
         tasks=tasks,
         search_query=search_query,
         priority_filter=priority_filter,
+        status_filter=status_filter,
         due_date_filter=due_date_filter,
         total_tasks=total_tasks,
         high_priority_tasks=high_priority_tasks,

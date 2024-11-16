@@ -326,6 +326,7 @@
                         <option value="Completed" {% if status_filter == 'Completed' %}selected{% endif %}>Completed</option>
                         <option value="Pending" {% if status_filter == 'Pending' %}selected{% endif %}>Pending</option>
                     </select>
+                    
                     <input type="date" name="due_date" value="{{ due_date_filter }}">
                     <input type="submit" value="Filter">
                 </form>
