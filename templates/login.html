@@ -39,13 +39,16 @@
             font-size: 3em; /* Increased font size */
             font-weight: bold;
             color: #333;
-            margin: 30px 0; /* Added margin to create space */
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             -webkit-background-clip: text;
             background-clip: text; /* Standard property */
             -webkit-text-fill-color: transparent;
+            padding: 20px;
+            background-color: #f4f4f9;
         }
 
         .footer {
@@ -57,6 +60,7 @@
             background-color: #333;
             color: white;
             font-size: 0.9em;
+            z-index: 1000;
         }
 
         /* Styling for body */
@@ -70,6 +74,9 @@
             align-items: center;
             height: 100vh;
             color: #333;
+            padding-top: 100px; /* Adjust for fixed header */
+            padding-bottom: 60px; /* Adjust for fixed footer */
+            box-sizing: border-box;
         }
 
         /* Login container with glassmorphism effect */
@@ -115,16 +122,24 @@
         }
 
         /* Submit button styling */
-        .login-container input[type="submit"] {
-            width: 100%;
+        .login-container input[type="submit"],
+        .login-container .forgot-password-button {
+            width: 48%;
             padding: 12px;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .login-container input[type="submit"] {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
         }
 
         .login-container input[type="submit"]:hover {
@@ -132,20 +147,11 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
-        /* Button styling */
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
+        .forgot-password-button {
             background: linear-gradient(135deg, #ff8a00, #e52e71);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
-        .login-container button:hover {
+        .forgot-password-button:hover {
             background: linear-gradient(135deg, #e52e71, #ff8a00);
         }
 
@@ -178,18 +184,15 @@
         <form method="POST" action="/login">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
-            <input type="submit" value="Login">
+            <div style="display: flex; justify-content: space-between;">
+                <input type="submit" value="Login">
+                <a href="{{ url_for('forgot_password') }}" class="forgot-password-button">Forgot Password</a>
+            </div>
         </form>
         <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
-        <button onclick="location.href='{{ url_for('forgot_password') }}';">Forgot Password</button>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        Developed by: Arjun Padalghare
-    </div>
-
-    <!-- Flash Messages -->
+   <!-- Flash Messages -->
     <div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -200,9 +203,9 @@
         {% endwith %}
     </div>
 
-    <!-- Main Content -->
-    <div>
-        {% block content %}{% endblock %}
+    <!-- Footer -->
+    <div class="footer">
+        Developed by: Arjun Padalghare
     </div>
 </body>
 </html>
