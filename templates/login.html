@@ -140,6 +140,7 @@
 
         .login-container input[type="submit"] {
             background: linear-gradient(135deg, #6a11cb, #2575fc);
+            margin-right: 10px;
         }
 
         .login-container input[type="submit"]:hover {
@@ -184,7 +185,7 @@
         <form method="POST" action="/login">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
-            <div style="display: flex; justify-content: space-between;">
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
                 <input type="submit" value="Login">
                 <a href="{{ url_for('forgot_password') }}" class="forgot-password-button">Forgot Password</a>
             </div>
