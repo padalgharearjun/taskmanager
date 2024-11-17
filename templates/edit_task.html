@@ -101,9 +101,8 @@
         }
 
         /* Submit button styling */
-        .form-container input[type="submit"],
-        .return-button {
-            width: 48%;
+        .task-button {
+            width: 100%;
             padding: 12px;
             color: white;
             border: none;
@@ -115,6 +114,13 @@
             text-decoration: none;
             display: inline-block;
             margin-top: 15px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .task-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
         .form-container input[type="submit"] {
@@ -136,6 +142,9 @@
 
         /* Checkbox styling */
         .form-container label.checkbox-label {
+            background: rgba(106, 17, 203, 0.1);
+            padding: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             margin-top: 10px;
@@ -143,6 +152,15 @@
 
         .form-container label.checkbox-label input[type="checkbox"] {
             margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            accent-color: #1a8605;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .form-container label.checkbox-label input[type="checkbox"]:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -178,8 +196,8 @@
                 Mark as Completed
             </label>
 
-            <input type="submit" value="Update Task">
-            <a href="{{ url_for('view_tasks') }}" class="return-button">Return to Task List</a>
+            <button type="submit" class="task-button">Update Task</button>
+            <button type="button" onclick="window.location.href='{{ url_for('view_tasks') }}'" class="task-button">Return to Task List</button>
         </form>
     </div>
 
